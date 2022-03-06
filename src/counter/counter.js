@@ -1,32 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
-import * as API from '../mock/api';
+import useNghiaCounter from './hook';
 
 const Counter = () => {
-  const [counter, setCounter] = useState(undefined);
-  const [loading, setLoading] = useState(true);
-
+  const [counter, loading, increment, decrement] = useNghiaCounter();
   console.log({ counter, loading });
-
-  // Initial load
-  useEffect(() => {
-    (async () => {
-      setCounter(await API.get());
-      setLoading(false);
-    })();
-  }, []);
-
-  // TODO: setState() batching INSIDE Promise is only available in 18+ WITH createRoot()
-  const decrement = useCallback(async () => {
-    setLoading(true);
-    setCounter(await API.decrement());
-    setLoading(false);
-  }, []);
-
-  const increment = useCallback(async () => {
-    setLoading(true);
-    setCounter(await API.increment());
-    setLoading(false);
-  }, []);
 
   return (
     <div>
