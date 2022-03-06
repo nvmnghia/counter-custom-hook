@@ -5,6 +5,8 @@ const Counter = () => {
   const [counter, setCounter] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
+  console.log({ counter, loading });
+
   // Initial load
   useEffect(() => {
     (async () => {
