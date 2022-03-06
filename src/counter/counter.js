@@ -1,25 +1,41 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import * as API from '../mock/api';
 
 const Counter = () => {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(undefined);
+  const [loading, setLoading] = useState(true);
 
-  // TODO: throw if not in [0, 10]
+  // Initial load
+  useEffect(() => {
+    (async () => {
+      setCounter(await API.get());
+      setLoading(false);
+    })();
+  }, []);
 
-  const increment = useCallback(
-    () => setCounter((curr) => (curr === 10 ? curr : curr + 1)),
-    []
-  );
-  const decrement = useCallback(
-    () => setCounter((curr) => (curr === 0 ? curr : curr - 1)),
-    []
-  );
+  const decrement = useCallback(async () => {
+    setLoading(true);
+    setCounter(await API.decrement());
+    setLoading(false);
+  }, []);
+
+  const increment = useCallback(async () => {
+    setLoading(true);
+    setCounter(await API.increment());
+    setLoading(false);
+  }, []);
 
   return (
     <div>
-      <div>{counter}</div>
+      <div>{counter ?? ''}</div>
+      {loading && <div>loading</div>}
       <div>
-        <button onClick={decrement}>decrement</button>
-        <button onClick={increment}>increment</button>
+        <button onClick={decrement} disabled={counter <= 0 || loading}>
+          decrement
+        </button>
+        <button onClick={increment} disabled={counter >= 10 || loading}>
+          increment
+        </button>
       </div>
     </div>
   );
