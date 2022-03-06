@@ -21,7 +21,7 @@ const initCounter = () => {
   const raw = getLSCounter();
   if (raw === null) {
     COUNTER = 0;
-    localStorage.setItem(LS_COUNTER, COUNTER.toString());
+    setLSCounter(COUNTER);
   } else {
     COUNTER = parseInt(raw);
   }
