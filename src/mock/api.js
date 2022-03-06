@@ -1,7 +1,10 @@
 /* Sleep utils */
 
+const MIN_SLEEP = 500; // Min & max sleep time, in ms
+const MAX_SLEEP = 2000;
+const SLEEP_RANGE = MAX_SLEEP - MIN_SLEEP;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const randomSleep = () => sleep(Math.random() * 5000 + 1000); // Sleep [1, 5) s
+const randomSleep = () => sleep(Math.random() * SLEEP_RANGE + MIN_SLEEP);
 
 /* Local storage */
 
