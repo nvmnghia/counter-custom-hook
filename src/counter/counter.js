@@ -15,6 +15,7 @@ const Counter = () => {
     })();
   }, []);
 
+  // TODO: setState() batching INSIDE Promise is only available in 18+ WITH createRoot()
   const decrement = useCallback(async () => {
     setLoading(true);
     setCounter(await API.decrement());
