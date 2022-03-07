@@ -32,7 +32,7 @@ const idleAfterSuccess = (counter, setCounter) => {
 
 /* Callbacks */
 
-const _decrement = (value, setCounter) => async () => {
+const _decrement = async (value, setCounter) => {
   setCounter({ value, status: Status.LOADING });
 
   // TODO: setState() batching INSIDE Promise is only available in 18+ WITH createRoot()
@@ -43,7 +43,7 @@ const _decrement = (value, setCounter) => async () => {
   }
 };
 
-const _increment = (value, setCounter) => async () => {
+const _increment = async (value, setCounter) => {
   setCounter({ value, status: Status.LOADING });
 
   try {
@@ -66,14 +66,16 @@ const useNghiaCounter = () => {
   useEffect(() => idleAfterSuccess(counter, setCounter), [counter]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const decrement = useCallback(_decrement(counter.value, setCounter), [
-    counter.value,
-  ]); // EXACTLY counter.value, NOT the whole counter, which is created repeatedly
+  const decrement = useCallback(
+    _decrement.bind(null, counter.value, setCounter),
+    [counter.value]
+  ); // EXACTLY counter.value, NOT the whole counter, which is created repeatedly
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const increment = useCallback(_increment(counter.value, setCounter), [
-    counter.value,
-  ]);
+  const increment = useCallback(
+    _increment.bind(null, counter.value, setCounter),
+    [counter.value]
+  );
 
   return [counter, increment, decrement];
 };
