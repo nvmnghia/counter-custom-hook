@@ -6,6 +6,10 @@ const SLEEP_RANGE = MAX_SLEEP - MIN_SLEEP;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const randomSleep = () => sleep(Math.random() * SLEEP_RANGE + MIN_SLEEP);
 
+const randomThrow = () => {
+  if (Math.random() < 0.2) throw new Error('oh fuck');
+};
+
 /* Local storage */
 
 const LS_COUNTER = 'counter';
@@ -30,17 +34,20 @@ const initCounter = () => {
 
 const get = async () => {
   await randomSleep();
+  randomThrow();
   return COUNTER ?? initCounter();
 };
 
 const increment = async () => {
   await randomSleep();
+  randomThrow();
   if (COUNTER < 10) setLSCounter(++COUNTER);
   return COUNTER;
 };
 
 const decrement = async () => {
   await randomSleep();
+  randomThrow();
   if (COUNTER > 0) setLSCounter(--COUNTER);
   return COUNTER;
 };

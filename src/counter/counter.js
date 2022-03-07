@@ -7,7 +7,7 @@ const Counter = () => {
   return (
     <div>
       <div>{counter.value ?? ''}</div>
-      {counter.status === Status.LOADING && <div>loading</div>}
+      <div>{counter.status}</div>
       <div>
         <button
           onClick={decrement}
