@@ -53,7 +53,7 @@ const _increment = async (value, setCounter) => {
   }
 };
 
-/* Component */
+/* Custom hook */
 
 const useNghiaCounter = () => {
   const [counter, setCounter] = useState({
