@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import * as API from '../mock/api';
 
 const Status = {
-  IDLE: 'IDLE',
   LOADING: 'LOADING',
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
@@ -18,17 +17,6 @@ const initialLoad = (setCounter) =>
       setCounter({ value: undefined, status: Status.FAILED });
     }
   })();
-
-// Revert to IDLE 2s after SUCCESS
-const idleAfterSuccess = (counter, setCounter) => {
-  if (counter.status === Status.SUCCESS) {
-    const timerID = setTimeout(
-      () => setCounter({ value: counter.value, status: Status.IDLE }),
-      2000
-    );
-    return () => clearTimeout(timerID);
-  }
-};
 
 /* Callbacks */
 
@@ -62,8 +50,6 @@ const useNghiaCounter = () => {
   });
 
   useEffect(() => initialLoad(setCounter), []);
-
-  useEffect(() => idleAfterSuccess(counter, setCounter), [counter]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const decrement = useCallback(
