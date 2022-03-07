@@ -1,4 +1,4 @@
-import useNghiaCounter from './hook';
+import useNghiaCounter, { Status } from './hook';
 
 const Counter = () => {
   const [counter, increment, decrement] = useNghiaCounter();
@@ -7,17 +7,17 @@ const Counter = () => {
   return (
     <div>
       <div>{counter.value ?? ''}</div>
-      {!counter.loaded && <div>loading</div>}
+      {counter.status === Status.LOADING && <div>loading</div>}
       <div>
         <button
           onClick={decrement}
-          disabled={counter.value <= 0 || !counter.loaded}
+          disabled={counter.value <= 0 || counter.status === Status.LOADING}
         >
           decrement
         </button>
         <button
           onClick={increment}
-          disabled={counter.value >= 10 || !counter.loaded}
+          disabled={counter.value >= 10 || counter.status === Status.LOADING}
         >
           increment
         </button>
