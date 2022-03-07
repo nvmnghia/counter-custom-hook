@@ -2,31 +2,27 @@ import { useCallback, useEffect, useState } from 'react';
 import * as API from '../mock/api';
 
 const useNghiaCounter = () => {
-  const [counter, setCounter] = useState(undefined);
-  const [loading, setLoading] = useState(true);
+  const [counter, setCounter] = useState({ value: undefined, loaded: false });
 
   // Initial load
   useEffect(() => {
     (async () => {
-      setCounter(await API.get());
-      setLoading(false);
+      setCounter({ value: await API.get(), loaded: true });
     })();
   }, []);
 
   // TODO: setState() batching INSIDE Promise is only available in 18+ WITH createRoot()
   const decrement = useCallback(async () => {
-    setLoading(true);
-    setCounter(await API.decrement());
-    setLoading(false);
-  }, []);
+    setCounter({ value: counter.value, loaded: false });
+    setCounter({ value: await API.decrement(), loaded: true });
+  }, [counter.value]); // EXACTLY counter.value, NOT the whole counter
 
   const increment = useCallback(async () => {
-    setLoading(true);
-    setCounter(await API.increment());
-    setLoading(false);
-  }, []);
+    setCounter({ value: counter.value, loaded: false });
+    setCounter({ value: await API.increment(), loaded: true });
+  }, [counter.value]);
 
-  return [counter, loading, increment, decrement];
+  return [counter, increment, decrement];
 };
 
 export default useNghiaCounter;
