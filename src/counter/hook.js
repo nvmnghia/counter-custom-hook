@@ -67,13 +67,13 @@ const useNghiaCounter = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const decrement = useCallback(
-    _decrement.bind(null, counter.value, setCounter),
+    () => _decrement(counter.value, setCounter),
     [counter.value]
   ); // EXACTLY counter.value, NOT the whole counter, which is created repeatedly
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const increment = useCallback(
-    _increment.bind(null, counter.value, setCounter),
+    () => _increment(counter.value, setCounter),
     [counter.value]
   );
 
