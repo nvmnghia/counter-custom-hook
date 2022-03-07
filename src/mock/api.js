@@ -20,11 +20,13 @@ const setLSCounter = (newCounter) =>
 /* Mock API */
 
 let COUNTER;
+const MIN_COUNTER = 0;
+const MAX_COUNTER = 10;
 
 const initCounter = () => {
   const raw = getLSCounter();
   if (raw === null) {
-    COUNTER = 0;
+    COUNTER = MIN_COUNTER;
     setLSCounter(COUNTER);
   } else {
     COUNTER = parseInt(raw);
@@ -41,14 +43,18 @@ const get = async () => {
 const increment = async () => {
   await randomSleep();
   randomThrow();
-  if (COUNTER < 10) setLSCounter(++COUNTER);
+
+  if (COUNTER < MAX_COUNTER) setLSCounter(++COUNTER);
+  else throw new Error(`counter can't be more than ${MAX_COUNTER}`);
   return COUNTER;
 };
 
 const decrement = async () => {
   await randomSleep();
   randomThrow();
-  if (COUNTER > 0) setLSCounter(--COUNTER);
+
+  if (COUNTER > MIN_COUNTER) setLSCounter(--COUNTER);
+  else throw new Error(`counter can't be less than ${MIN_COUNTER}`);
   return COUNTER;
 };
 

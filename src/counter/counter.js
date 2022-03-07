@@ -11,13 +11,13 @@ const Counter = () => {
       <div>
         <button
           onClick={decrement}
-          disabled={counter.value <= 0 || counter.status === Status.LOADING}
+          disabled={counter.status === Status.LOADING}
         >
           decrement
         </button>
         <button
           onClick={increment}
-          disabled={counter.value >= 10 || counter.status === Status.LOADING}
+          disabled={counter.status === Status.LOADING}
         >
           increment
         </button>
