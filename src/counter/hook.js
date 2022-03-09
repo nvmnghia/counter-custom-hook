@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import * as API from '../mock/api';
 
 const Status = {
@@ -15,8 +16,11 @@ const useNghiaCounter = () => {
     (async () => {
       try {
         setStatus(Status.LOADING);
-        setCounter(await API.get());
-        setStatus(Status.SUCCESS);
+        const raw = await API.get();
+        unstable_batchedUpdates(() => {
+          setCounter(raw);
+          setStatus(Status.SUCCESS);
+        });
       } catch {
         setStatus(Status.FAILED);
       }
@@ -26,8 +30,11 @@ const useNghiaCounter = () => {
   const decrement = useCallback(async () => {
     try {
       setStatus(Status.LOADING);
-      setCounter(await API.decrement());
-      setStatus(Status.SUCCESS);
+      const raw = await API.decrement();
+      unstable_batchedUpdates(() => {
+        setCounter(raw);
+        setStatus(Status.SUCCESS);
+      });
     } catch {
       setStatus(Status.FAILED);
     }
@@ -36,8 +43,11 @@ const useNghiaCounter = () => {
   const increment = useCallback(async () => {
     try {
       setStatus(Status.LOADING);
-      setCounter(await API.increment());
-      setStatus(Status.SUCCESS);
+      const raw = await API.increment();
+      unstable_batchedUpdates(() => {
+        setCounter(raw);
+        setStatus(Status.SUCCESS);
+      });
     } catch {
       setStatus(Status.FAILED);
     }
