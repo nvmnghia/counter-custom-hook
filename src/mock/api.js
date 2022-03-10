@@ -26,7 +26,8 @@ const MAX_COUNTER = 10;
 const initCounter = () => {
   const raw = getLSCounter();
   if (raw === null) {
-    COUNTER = MIN_COUNTER;
+    console.log(process.env.REACT_APP_INITIAL_COUNTER);
+    COUNTER = parseInt(process.env.REACT_APP_INITIAL_COUNTER ?? MIN_COUNTER);
     setLSCounter(COUNTER);
   } else {
     COUNTER = parseInt(raw);
