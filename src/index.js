@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const devName = process.env.REACT_APP_DEV_NAME;
+if (devName !== undefined) {
+  console.log(`Local: Welcome ${devName}`);
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
